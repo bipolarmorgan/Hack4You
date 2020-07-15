@@ -1,6 +1,6 @@
-import lang, { returnMessage, returnMail } from '../lang.js';
+import { lang,  returnMessage, returnMail } from '../lang.js';
 import { bot, default_bonus, expiration } from '../config.js';
-import fieldValidator, { username as _username, email as _email, password as _password } from '../libs/field_validator';
+import { fieldValidator, username as _username, email as _email, password as _password } from '../libs/field_validator';
 import { now } from 'microtime';
 import { createHash } from 'crypto';
 //Presets
@@ -9,16 +9,16 @@ var rlang = returnMessage;
 var rmlang = returnMail;
 
 var fieldValidator = new fieldValidator();
-import moment from 'moment';
+import { moment } from 'moment';
 
-import MailSender from '../libs/mail_sender.js';
+import { MailSender } from '../libs/mail_sender.js';
 var mailSender = new MailSender();
 
 import { getQuery as _getQuery } from '../libs/mysql_query_list.js';
 var getQuery = _getQuery;
 
 //Ip Tools
-import IpTools from '../libs/ip_tools.js';
+import { IpTools } from '../libs/ip_tools.js';
 var generate_ip = new IpTools(bot.ip_ranges).generate_ip;
 
 export default function(app, my){

@@ -1,6 +1,6 @@
-import lang, { returnMessage } from '../lang.js';
-import config from '../config.js';
-import microtime from 'microtime';
+import { lang,  returnMessage } from '../lang.js';
+import { config } from '../config.js';
+import { microtime } from 'microtime';
 //Lista de querys
 import { getQuery as _getQuery } from '../libs/mysql_query_list.js';
 var getQuery = _getQuery;
@@ -9,7 +9,7 @@ var getQuery = _getQuery;
 var lang = new lang();
 var rlang = returnMessage;
 
-import moment from 'moment';
+import { moment } from 'moment';
 
 export default function(app, my){
     app.post('/api/query/machine/', function(req, res){
