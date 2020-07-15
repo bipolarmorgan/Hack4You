@@ -107,8 +107,8 @@ config.bot = {
 }
 config.mysql = {
 	host: "127.0.0.1", 
-	user: "root",
-	password: "123",
+	user: "hack4you",
+	password: "hack4you",
 	database: "hack4you"
 };
 
@@ -128,4 +128,4 @@ config.email = {
 	}
 }
 
-module.exports = config;
+export default config;

@@ -1,8 +1,8 @@
-var config  =  require('../config.js');
+import { config } from '../config.js';
 
 var MachineCheck = function() {
 	var actionsChecker = function(){
 		
 	}
 }
-module.exports = new MachineCheck();
+export default new MachineCheck();

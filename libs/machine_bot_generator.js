@@ -1,10 +1,10 @@
-var config  =  require('../config.js');
-var IpTools = require('../libs/ip_tools.js');
-var generate_ip = new IpTools(config.bot.ip_ranges).generate_ip;
+import { bot as _bot } from '../config.js';
+import { IpTools } from '../libs/ip_tools.js';
+var generate_ip = new IpTools(_bot.ip_ranges).generate_ip;
 MachineBotGenerator = function(){
 	this.generateBots = function(){
 		var machineBots = new Map();
-		for (var tier of config.bot.tiers) {
+		for (var tier of _bot.tiers) {
 			for (var i = tier.bots - 1; i >= 0; i--) {
 				var bot = {
 					balance: valueGenerator(tier.money_range.initial, tier.money_range.final),
@@ -35,4 +35,4 @@ MachineBotGenerator = function(){
 		return (Math.floor(Math.random() * final) + initial);
 	}
 }
-module.exports = new MachineBotGenerator();
+export default new MachineBotGenerator();

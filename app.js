@@ -1,49 +1,49 @@
 /////////////////////////////////////////////////////
 ///////////
 //////////		Hack4You API Daemon	
-///////////
-///////////////////
-////////////////////////////////////////////////////////////
-var express			=	require("express");
-var bodyParser		=	require("body-parser");
-var fs				=	require('fs');
-var mysql			=	require('mysql');
-var readline        =   require('readline');
-var config			=	require('./config.js');
-var lang        	=	require('./lang.js');
+//////////    -------------------
+/////////
+//////////////////////////////////////////////////////
+import { express } from "express";
+import { json, urlencoded } from "body-parser";
+import { readdirSync } from 'fs';
+import { createConnection } from 'mysql';
+import { createInterface } from 'readline';
+import { mysql as _mysql, port, title } from './config.js';
+import { lang, returnMessage } from './lang.js';
 var lang = new lang();
 
 // Simplify returnMessage function
-var rlang = lang.returnMessage;
+var rlang = returnMessage;
 
 // Start console
-var rl = readline.createInterface(process.stdin, process.stdout);
+var rl = createInterface(process.stdin, process.stdout);
 
 // Create mysql connection based on config.js
-var my = mysql.createConnection(config.mysql);
+var my = createConnection(_mysql);
 
 // Start express with body parser to parse json
 var app = express();
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(json());
+app.use(urlencoded({ extended: true }));
 
 // Start routes of the api sending via parameter express, mysql connection, config and lang function
-fs.readdirSync('./routes/').forEach(file => {
+readdirSync('./routes/').forEach(file => {
   require("./routes/" + file)(app, my);
 });
 
 // Start listening
-var server = app.listen(config.port, function () {
-    console.log(config.title+" daemon is listening on port %s...", server.address().port);
-    //rl.prompt();
+var server = app.listen(port, function () {
+    console.log(title+" daemon is listening on port %s...", server.address().port);
+    rl.prompt();
 });
 
 global.loggedUsers = new Map();
-var UserManager = require('./libs/user_manager.js');
+import { UserManager } from './libs/user_manager.js';
 global.userManager = new UserManager();
 
 //Actions Check
-fs.readdirSync('./tasks/').forEach(file => {
+readdirSync('./tasks/').forEach(file => {
   var task = require("./tasks/" + file);
   task.startTask();
 });
@@ -58,5 +58,5 @@ rl.on('line', function(line) {
 
 // Server machine bots
 global.machineBots = new Map();
-var machineBotGenerator = require('./libs/machine_bot_generator.js');
-machineBotGenerator.generateBots();
+import { generateBots } from './libs/machine_bot_generator.js';
+generateBots();

@@ -1,17 +1,17 @@
-var lang = require('../lang.js');
-var config  =  require('../config.js');
-var microtime = require('microtime');
+import lang, { returnMessage } from '../lang.js';
+import config from '../config.js';
+import microtime from 'microtime';
 //Lista de querys
-var mysqlQueryList = require('../libs/mysql_query_list.js');
-var getQuery = mysqlQueryList.getQuery;
+import { getQuery as _getQuery } from '../libs/mysql_query_list.js';
+var getQuery = _getQuery;
 
 //Presets
 var lang = new lang();
-var rlang = lang.returnMessage;
+var rlang = returnMessage;
 
-var moment = require('moment');
+import moment from 'moment';
 
-module.exports = function(app, my){
+export default function(app, my){
     app.post('/api/query/machine/', function(req, res){
         //Checa linguagem
         if(!req.body.lang){

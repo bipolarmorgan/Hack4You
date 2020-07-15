@@ -1,30 +1,39 @@
 {
-    "name": "Hack4You",
-    "version": "1.0.0",
-    "description": "Hack4You is a realtime RESTFULL api with node for create a multiplayer game of hacking simulation based on games like vHack, Hack Ex and Hacker Experience.",
-    "author": "darkwolf_66",
+	"name": "Hack4You",
+	"version": "1.0.1",
+	"description": "Hack4You is a realtime RESTFULL api with node for create a multiplayer game of hacking simulation based on games like vHack, Hack Ex and Hacker Experience.",
+	"author": "bipolarmorgan",
 	"main": "app.js",
-	"keywords": ["game", "multiplayer", "simulation", "simulator", "hack", "nodejs", "javascript"],
+	"keywords": [
+		"game",
+		"multiplayer",
+		"simulation",
+		"simulator",
+		"hack",
+		"nodejs",
+		"javascript"
+	],
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/darkwolf66/Hack4You.git"
+		"url": "https://github.com/bipolarmorgan/Hack4You.git"
 	},
 	"bugs": {
-		"url": "https://github.com/darkwolf66/Hack4You/issues"
+		"url": "https://github.com/bipolarmorgan/Hack4You/issues"
 	},
-	"homepage": "http://hack4you.org",
+	"type": "module",
 	"dependencies": {
-	    "crypto": "*",
-	    "express": "*",
-	    "mysql": "*",
-	    "body-parser": "*",
-	    "fs": "*",
-	    "readline": "*",
-	    "microtime": "*",
-	    "nodemailer":"*"
+		"body-parser": "^1.19.0",
+		"crypto": "^1.0.1",
+		"express": "^4.17.1",
+		"fs": "*",
+		"microtime": "^3.0.0",
+		"mysql": "^2.18.1",
+		"node": "^14.5.0",
+		"nodemailer": "*",
+		"readline": "*"
 	},
 	"scripts": {
-	    "test": "mocha"
+		"test": "mocha"
 	}
 }

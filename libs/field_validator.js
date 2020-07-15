@@ -1,4 +1,4 @@
-module.exports = FieldValidator = function(){
+export default FieldValidator = function(){
 	this.username = {
 		isValid: function(str){
 			var regex = new RegExp("^[a-zA-Z0-9]([._](?![._])|[a-zA-Z0-9]){6,18}[a-zA-Z0-9]$", "g");

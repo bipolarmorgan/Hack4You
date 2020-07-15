@@ -1,27 +1,27 @@
-var lang = require('../lang.js');
-var config  =  require('../config.js');
-var fieldValidator = require('../libs/field_validator');
-var microtime = require('microtime');
-var crypto = require('crypto');
+import lang, { returnMessage, returnMail } from '../lang.js';
+import { bot, default_bonus, expiration } from '../config.js';
+import fieldValidator, { username as _username, email as _email, password as _password } from '../libs/field_validator';
+import { now } from 'microtime';
+import { createHash } from 'crypto';
 //Presets
 var lang = new lang();
-var rlang = lang.returnMessage;
-var rmlang = lang.returnMail;
+var rlang = returnMessage;
+var rmlang = returnMail;
 
 var fieldValidator = new fieldValidator();
-var moment = require('moment');
+import moment from 'moment';
 
-var MailSender = require('../libs/mail_sender.js');
+import MailSender from '../libs/mail_sender.js';
 var mailSender = new MailSender();
 
-var mysqlQueryList = require('../libs/mysql_query_list.js');
-var getQuery = mysqlQueryList.getQuery;
+import { getQuery as _getQuery } from '../libs/mysql_query_list.js';
+var getQuery = _getQuery;
 
 //Ip Tools
-var IpTools = require('../libs/ip_tools.js');
-var generate_ip = new IpTools(config.bot.ip_ranges).generate_ip;
+import IpTools from '../libs/ip_tools.js';
+var generate_ip = new IpTools(bot.ip_ranges).generate_ip;
 
-module.exports = function(app, my){
+export default function(app, my){
 	//Primeiro os registros
 	///	Account Register
 	////
@@ -43,26 +43,26 @@ module.exports = function(app, my){
             return res.send(rlang(lang, 6));
         }
         
-        if(!fieldValidator.username.isValid(req.body.username)){
+        if(!_username.isValid(req.body.username)){
            return res.send(rlang(lang, 9));
-        }else if(!fieldValidator.email.isValid(req.body.email)){
+        }else if(!_email.isValid(req.body.email)){
            return res.send(rlang(lang, 7));
-        }else if(!fieldValidator.password.isValid(req.body.password)){
+        }else if(!_password.isValid(req.body.password)){
            return res.send(rlang(lang, 8));
         }
 
         var ip = generate_ip();
-        var salt = crypto.createHash('sha256').update(microtime.now()+req.body.username).digest("hex");
-        var password = crypto.createHash('sha512').update(salt+req.body.password).digest("hex");
+        var salt = createHash('sha256').update(now()+req.body.username).digest("hex");
+        var password = createHash('sha512').update(salt+req.body.password).digest("hex");
 
         var user = {
             username: req.body.username,
             email: req.body.email,
             password: password,
             salt: salt,
-            token_expiration: microtime.now(),
-            money: config.default_bonus.money,
-            hcoins: config.default_bonus.hcoins,
+            token_expiration: now(),
+            money: default_bonus.money,
+            hcoins: default_bonus.hcoins,
             register_date: moment().format('YYYY-MM-DD HH:mm:ss'),
             offline_mode_expiration: 0
         };
@@ -121,7 +121,7 @@ module.exports = function(app, my){
             return res.send(rlang(lang, 3));
         }
         var user;
-        if(fieldValidator.email.isValid(req.body.user)){
+        if(_email.isValid(req.body.user)){
             user = {
                 email: req.body.user
             }
@@ -137,12 +137,12 @@ module.exports = function(app, my){
             }else{
                 result = result[0];
                 user.password = req.body.password;
-                if(result.password != crypto.createHash('sha512').update(result.salt+user.password).digest("hex")){
+                if(result.password != createHash('sha512').update(result.salt+user.password).digest("hex")){
                     return res.send({"status": "error", "code":14 ,"message": rlang(lang, 14)});
                 }else{
                     //Gerar token e tempo
-                    result.token = crypto.createHash('sha256').update(microtime.now()+user.username).digest("hex");
-                    result.token_expiration = microtime.now()+config.expiration.login;
+                    result.token = createHash('sha256').update(now()+user.username).digest("hex");
+                    result.token_expiration = now()+expiration.login;
                     result.actions = 0;
                     result.minute_actions = 0;
                     //Adicionar a lista de users online
